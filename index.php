@@ -44,7 +44,7 @@
               <input type="file" class="form-control form-control-lg" name="image" id="imageInput" required>
             </div>
             <ul class="small my-4">
-              <li>Загрузка только JPG, PNG, SVG.</li>
+              <li>Загрузка только JPG, PNG, WEBP.</li>
               <li>Размер файла не должен превышать 1 МБ.</li>
               <li>Разрешение изображение не больше 1920x1080.</li>
             </ul>
