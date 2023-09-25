@@ -60,10 +60,12 @@ imageInputElement.addEventListener('change', async function (event) {
       file.width = 'auto';
       file.height = 'auto';
     
-      if (img.height / (img.width / MAX_IMG_WIDTH) > MAX_IMG_HEIGTH) {
-        file.height = MAX_IMG_HEIGTH;
-      } else {
-        file.width = MAX_IMG_WIDTH;
+      if (img.width > MAX_IMG_WIDTH && img.height > MAX_IMG_HEIGTH) {
+        if (img.height / (img.width / MAX_IMG_WIDTH) > MAX_IMG_HEIGTH) {
+          file.height = MAX_IMG_HEIGTH;
+        } else {
+          file.width = MAX_IMG_WIDTH;
+        }
       }
       
       fromBlob(file, 90, file.width, file.height, 'webp').then((blob) => {
