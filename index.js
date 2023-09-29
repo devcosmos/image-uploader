@@ -8,6 +8,7 @@ const copyClipboardElement = document.querySelector('#copyClipboard');
 const MAX_FILE_SIZE = 1000000; // 1 Mb
 const MAX_IMG_WIDTH = 1920;
 const MAX_IMG_HEIGTH = 1080;
+const VALID_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
 
 const collapse = new bootstrap.Collapse('#collapse', { toggle: false});
 
@@ -24,7 +25,7 @@ if (copyClipboardElement) {
   });
 }
 
-const checkFile = (file) => {
+const checkFileSize = (file) => {
   if (file.size > MAX_FILE_SIZE) {
     submitButtonlement.setAttribute('disabled', true);
     alertElement.innerHTML = `
@@ -33,8 +34,6 @@ const checkFile = (file) => {
       <p class="mb-0">
         Сначала
         <a class="link-light text-decoration-none" href="https://www.iloveimg.com/ru/resize-image" target="_blank">измени размер</a>
-        , потом
-        <a class="link-light text-decoration-none" href="https://tinypng.com/" target="_blank">оптимизируй</a>.
       </p>
     `;
     collapse.show();
@@ -48,39 +47,59 @@ const checkFile = (file) => {
   }
 }
 
+const checkFileType = (file) => {
+  if (!VALID_FILE_TYPES.includes(file.type)) {
+    alertElement.innerHTML = `Данный тип файла не поддерживается.`;
+    collapse.show();
+
+    return false;
+  } else {
+    collapse.hide();
+
+    return true;
+  }
+}
+
 imageInputElement.addEventListener('change', async function (event) {
   const file = event.target.files[0];
-  const reader = new FileReader();
-
   submitButtonlement.setAttribute('disabled', true);
 
-  reader.addEventListener('load', function() {
-    const img = new Image();
-    img.addEventListener('load', () => {
-      file.width = 'auto';
-      file.height = 'auto';
-    
-      if (img.width > MAX_IMG_WIDTH && img.height > MAX_IMG_HEIGTH) {
-        if (img.height / (img.width / MAX_IMG_WIDTH) > MAX_IMG_HEIGTH) {
-          file.height = MAX_IMG_HEIGTH;
-        } else {
-          file.width = MAX_IMG_WIDTH;
-        }
-      }
-      
-      fromBlob(file, 90, file.width, file.height, 'webp').then((blob) => {
-        checkFile(blob);
+  if (checkFileType(file)) {
+    if (file.type === 'image/svg+xml') {
+      checkFileSize(file);
+    } else {
+      const reader = new FileReader();
+  
+      reader.addEventListener('load', function() {
+        const img = new Image();
+        img.addEventListener('load', () => {
+          file.width = 'auto';
+          file.height = 'auto';
         
-        const list = new DataTransfer();
-        const newFile = new File([blob], file.name.substr(0, file.name.lastIndexOf('.')) + '.webp');
-        list.items.add(newFile);
-        const fileList = list.files;
-        imageInputElement.files = fileList;
-      });
-
-    });
-    img.src = reader.result;
-  }, false);
-
-  if (file) reader.readAsDataURL(file);
+          if (img.width > MAX_IMG_WIDTH && img.height > MAX_IMG_HEIGTH) {
+            if (img.height / (img.width / MAX_IMG_WIDTH) > MAX_IMG_HEIGTH) {
+              file.height = MAX_IMG_HEIGTH;
+            } else {
+              file.width = MAX_IMG_WIDTH;
+            }
+          }
+          
+          fromBlob(file, 90, file.width, file.height, 'webp').then((blob) => {
+            if (checkFileSize(blob)) {
+              const list = new DataTransfer();
+              const newFile = new File([blob], file.name.substr(0, file.name.lastIndexOf('.')) + '.webp');
+              list.items.add(newFile);
+              const fileList = list.files;
+              imageInputElement.files = fileList;
+            }
+          });
+    
+        });
+        img.src = reader.result;
+      }, false);
+    
+      if (file) reader.readAsDataURL(file);
+    }
+  }
+  
 });
