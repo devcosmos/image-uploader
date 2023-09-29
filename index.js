@@ -10,7 +10,7 @@ const MAX_IMG_WIDTH = 1920;
 const MAX_IMG_HEIGTH = 1080;
 const VALID_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
 
-const collapse = new bootstrap.Collapse('#collapse', { toggle: false});
+const collapse = new bootstrap.Collapse('#collapse', { toggle: false });
 
 if (copyClipboardElement) {
   copyClipboardElement.addEventListener('click', (event) => {
