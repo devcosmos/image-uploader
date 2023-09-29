@@ -60,9 +60,28 @@ const checkFileType = (file) => {
   }
 }
 
+const getImageSize = (image) => {
+  const imageSize = {
+    width: 'auto',
+    height: 'auto',
+  }
+
+  if (image.width > MAX_IMG_WIDTH || image.height > MAX_IMG_HEIGTH) {
+    if (image.height / (image.width / MAX_IMG_WIDTH) > MAX_IMG_HEIGTH) {
+      imageSize.height = MAX_IMG_HEIGTH;
+    } else {
+      imageSize.width = MAX_IMG_WIDTH;
+    }
+  }
+
+  return imageSize;
+}
+
 imageInputElement.addEventListener('change', async function (event) {
   const file = event.target.files[0];
   submitButtonElement.setAttribute('disabled', true);
+
+  if (!file) return;
 
   if (checkFileType(file)) {
     if (file.type === 'image/svg+xml') {
@@ -72,19 +91,11 @@ imageInputElement.addEventListener('change', async function (event) {
   
       reader.addEventListener('load', function() {
         const img = new Image();
+
         img.addEventListener('load', () => {
-          file.width = 'auto';
-          file.height = 'auto';
-        
-          if (img.width > MAX_IMG_WIDTH && img.height > MAX_IMG_HEIGTH) {
-            if (img.height / (img.width / MAX_IMG_WIDTH) > MAX_IMG_HEIGTH) {
-              file.height = MAX_IMG_HEIGTH;
-            } else {
-              file.width = MAX_IMG_WIDTH;
-            }
-          }
+          const imageSize = getImageSize(img);
           
-          fromBlob(file, 90, file.width, file.height, 'webp').then((blob) => {
+          fromBlob(file, 90, imageSize.width, imageSize.height, 'webp').then((blob) => {
             if (checkFileSize(blob)) {
               const list = new DataTransfer();
               const newFile = new File([blob], file.name.substr(0, file.name.lastIndexOf('.')) + '.webp');
@@ -93,8 +104,8 @@ imageInputElement.addEventListener('change', async function (event) {
               imageInputElement.files = fileList;
             }
           });
-    
         });
+
         img.src = reader.result;
       }, false);
     
