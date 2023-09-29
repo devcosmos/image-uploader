@@ -2,7 +2,7 @@
 
 const alertElement = document.querySelector("#alert");
 const imageInputElement = document.querySelector('#imageInput');
-const submitButtonlement = document.querySelector('#submitButton');
+const submitButtonElement = document.querySelector('#submitButton');
 const copyClipboardElement = document.querySelector('#copyClipboard');
 
 const MAX_FILE_SIZE = 1000000; // 1 Mb
@@ -27,7 +27,7 @@ if (copyClipboardElement) {
 
 const checkFileSize = (file) => {
   if (file.size > MAX_FILE_SIZE) {
-    submitButtonlement.setAttribute('disabled', true);
+    submitButtonElement.setAttribute('disabled', true);
     alertElement.innerHTML = `
       <p>Слишком большой размер файла, уменьши размер до 1 мб.</p>
       <hr>
@@ -40,7 +40,7 @@ const checkFileSize = (file) => {
     
     return false;
   } else {
-    submitButtonlement.removeAttribute('disabled');
+    submitButtonElement.removeAttribute('disabled');
     collapse.hide();
 
     return true;
@@ -62,7 +62,7 @@ const checkFileType = (file) => {
 
 imageInputElement.addEventListener('change', async function (event) {
   const file = event.target.files[0];
-  submitButtonlement.setAttribute('disabled', true);
+  submitButtonElement.setAttribute('disabled', true);
 
   if (checkFileType(file)) {
     if (file.type === 'image/svg+xml') {
