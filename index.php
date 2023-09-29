@@ -11,6 +11,7 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-6 py-5 my-5">
+
           <div class="text-center">
             <a href="/">
               <img class="d-block mx-auto mb-4" src="https://mai.ru/bitrix/templates/mai23_dev/php/label/logo.svg" height="60">
@@ -18,6 +19,7 @@
             <h1 class="display-6 fw-bold text-body-emphasis">Загрузка изображения</h1>
             <p class="lead mb-5">Сервис для загрузки изображений на files.mai.ru.</p>
           </div>
+
           <div class="collapse <?= defined('FILE_URL') ? 'show' : '' ?>" id="collapse">
             <div class="alert <?= defined('FILE_URL') ? 'alert-primary' : 'alert-warning' ?> mb-5" role="alert" id="alert">
               <?php if (defined('FILE_URL')): ?>
@@ -41,6 +43,7 @@
               <?php endif ?>
             </div>
           </div>
+
           <form class="needs-validation" method="post" enctype="multipart/form-data">
             <div class="mb-3">
               <input type="file" class="form-control form-control-lg" name="image" id="imageInput" accept="image/jpg, image/jpeg, image/png, image/webp, image/svg+xml" required>
@@ -51,6 +54,32 @@
             </ul>
             <button class="btn btn-primary btn-lg" type="submit" id="submitButton">Загрузить</button>
           </form>
+
+          <h5 class="lead mt-5 pt-5 mb-4">Последние загруженные изображения</h5>
+          <div class="card overflow-hidden">
+            <table class="table table-bordered table-hover" style="margin: -1px; width: calc(100% + 2px);">
+              <tbody>
+                <?php if ($handle = opendir('uploads')) {
+                  $count = 0;
+                  $maxCount = 10;
+                  while (false !== ($entry = readdir($handle)) && $count < $maxCount) {
+                    if ($entry != "." && $entry != "..") { $count++;
+                      echo $count % 2 === 1 ? '<tr>' : '';
+                      echo '<td class="table-active text-center" style="width: 41px;">' . $count . '</td>';                    
+                      echo '<td><a class="text-decoration-none" href="uploads/' . $entry . '" target="_blank">' . $entry . '</a></td>';                    
+                      echo $count % 2 === 0 ? '</tr>' : '';
+                    }
+                  }
+                  if ($count === 0) {
+                    echo '<tr><td>Файлов пока нет...</td></tr>';
+                  }
+                  closedir($handle);
+                } else {
+                  echo '<tr><td>Ошибка чтения директории</td></tr>';
+                } ?>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
