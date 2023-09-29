@@ -43,10 +43,10 @@
           </div>
           <form class="needs-validation" method="post" enctype="multipart/form-data">
             <div class="mb-3">
-              <input type="file" class="form-control form-control-lg" name="image" id="imageInput" required>
+              <input type="file" class="form-control form-control-lg" name="image" id="imageInput" accept="image/jpg, image/jpeg, image/png, image/webp, image/svg+xml" required>
             </div>
             <ul class="small my-4">
-              <li>Загрузка только JPG, PNG, WEBP.</li>
+              <li>Загрузка только JPG, PNG, WEBP, SVG.</li>
               <li>Размер файла не должен превышать 1 МБ.</li>
               <li>Разрешение изображение не больше 1920x1080.</li>
             </ul>
