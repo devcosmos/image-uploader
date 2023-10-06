@@ -24,8 +24,27 @@ function make_upload ($file) {
   $mime = strtolower(end($getMime));
   $name = time() . '.' . $mime;
   copy($file['tmp_name'], 'uploads/' . $name);
+  update_list($name);
 
   return $name;
+}
+
+function update_list ($name) {
+  $file = 'list.json';
+  
+  $json = json_decode(file_get_contents($file), true);
+  
+  if (isset($json) && is_array($json)) {
+    array_unshift($json, $name);
+  } else {
+    $json = array($name);
+  }
+  
+  file_put_contents($file, json_encode(array_slice($json, 0, 10)));
+}
+
+function get_list () {
+  return json_decode(file_get_contents('list.json'), true);
 }
 
 if (isset($_FILES['image'])) {
