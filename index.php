@@ -12,74 +12,14 @@
       <div class="row justify-content-center">
         <div class="col-lg-6 py-5 my-5">
 
-          <div class="text-center">
-            <a href="/">
-              <img class="d-block mx-auto mb-4" src="https://mai.ru/bitrix/templates/mai23_dev/php/label/logo.svg" height="60">
-            </a>
-            <h1 class="display-6 fw-bold text-body-emphasis">Загрузка изображения</h1>
-            <p class="lead mb-5">Сервис для загрузки изображений на files.mai.ru.</p>
-          </div>
+          <?php include_once('components/header.php') ?>
 
-          <div class="collapse <?= defined('FILE_URL') ? 'show' : '' ?>" id="collapse">
-            <div class="alert <?= defined('FILE_URL') ? 'alert-primary' : 'alert-warning' ?> mb-5" role="alert" id="alert">
-              <?php if (defined('FILE_URL')): ?>
-                <p>Файл успешно загружен!</p>
-                <hr>
-                <a class="icon-link icon-link-hover text-decoration-none link-light" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="<?= FILE_URL ?>" target="_blank">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
-                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
-                  </svg>
-                  Открыть
-                </a>
-                <a class="icon-link icon-link-hover text-decoration-none link-light ms-4" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" id="copyClipboard" href="<?= FILE_URL ?>">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
-                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                  </svg>
-                  Скопировать
-                </a>
-              <?php elseif (defined('ERROR')): ?>
-                <p><?= ERROR ?></p>
-              <?php endif ?>
-            </div>
-          </div>
+          <?php include_once('components/message.php') ?>
 
-          <form class="needs-validation" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-              <input type="file" class="form-control form-control-lg" name="image" id="imageInput" accept="image/jpg, image/jpeg, image/png, image/webp, image/svg+xml" required>
-            </div>
-            <ul class="small my-4">
-              <li>Загрузка только JPG, PNG, WEBP, SVG.</li>
-              <li>Размер файла не должен превышать 1 МБ.</li>
-            </ul>
-            <button class="btn btn-primary btn-lg" type="submit" id="submitButton">Загрузить</button>
-          </form>
+          <?php include_once('components/form.php') ?>
 
-          <h5 class="lead mt-5 pt-5 mb-4">Последние загруженные изображения</h5>
-          <div class="card overflow-hidden">
-            <table class="table table-bordered table-hover" style="margin: -1px; width: calc(100% + 2px);">
-              <tbody>
-                <?php if ($handle = opendir('uploads')) {
-                  $count = 0;
-                  $maxCount = 10;
-                  while (false !== ($entry = readdir($handle)) && $count < $maxCount) {
-                    if ($entry != "." && $entry != "..") { $count++;
-                      echo $count % 2 === 1 ? '<tr>' : '';
-                      echo '<td class="table-active text-center" style="width: 41px;">' . $count . '</td>';                    
-                      echo '<td><a class="text-decoration-none" href="uploads/' . $entry . '" target="_blank">' . $entry . '</a></td>';                    
-                      echo $count % 2 === 0 ? '</tr>' : '';
-                    }
-                  }
-                  if ($count === 0) {
-                    echo '<tr><td>Файлов пока нет...</td></tr>';
-                  }
-                  closedir($handle);
-                } else {
-                  echo '<tr><td>Ошибка чтения директории</td></tr>';
-                } ?>
-              </tbody>
-            </table>
-          </div>
+          <?php include_once('components/list.php') ?>
+
         </div>
       </div>
     </div>
