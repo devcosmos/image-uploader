@@ -23,7 +23,7 @@ function make_upload ($file) {
   $getMime = explode('.', $file['name']);
   $mime = strtolower(end($getMime));
   $name = time() . '.' . $mime;
-  copy($file['tmp_name'], 'uploads/' . $name);
+  copy($file['tmp_name'], '../../files.mai.ru/uploads/' . $name);
   update_list($name);
 
   return $name;
@@ -51,7 +51,7 @@ if (isset($_FILES['image'])) {
   $check = can_upload($_FILES['image']);
 
   if ($check === true) {
-    define('FILE_URL', 'uploads/' . make_upload($_FILES['image']));
+    define('FILE_URL', '/uploads/' . make_upload($_FILES['image']));
   } else {
     define('ERROR', $check);
   }
