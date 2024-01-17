@@ -40,7 +40,7 @@ function update_list ($name) {
     $json = array($name);
   }
   
-  file_put_contents($file, json_encode(array_slice($json, 0, 10)));
+  file_put_contents($file, json_encode(array_slice($json, 0, 20)));
 }
 
 function get_list () {
