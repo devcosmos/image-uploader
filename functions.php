@@ -4,8 +4,8 @@ function can_upload ($file) {
     return 'Вы не выбрали файл.';
   }
     
-  if ($file['size'] > 1000000) {
-    return 'Размер изображения не должен превышать 1 МБ.';
+  if ($file['size'] > 3000000) {
+    return 'Размер изображения не должен превышать 3 МБ.';
   }
 
   $getMime = explode('.', $file['name']);

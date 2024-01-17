@@ -5,7 +5,7 @@ const imageInputElement = document.querySelector('#imageInput');
 const submitButtonElement = document.querySelector('#submitButton');
 const copyClipboardElement = document.querySelector('#copyClipboard');
 
-const MAX_FILE_SIZE = 1000000; // 1 Mb
+const MAX_FILE_SIZE = 3000000; // 3 Mb
 const MAX_IMG_WIDTH = 1920;
 const MAX_IMG_HEIGTH = 1080;
 const VALID_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];

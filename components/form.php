@@ -4,7 +4,7 @@
   </div>
   <ul class="small my-4">
     <li>Загрузка только JPG, PNG, WEBP, SVG.</li>
-    <li>Размер файла не должен превышать 1 МБ.</li>
+    <li>Размер файла не должен превышать 3 МБ.</li>
   </ul>
   <button class="btn btn-primary btn-lg" type="submit" id="submitButton">Загрузить</button>
 </form>
